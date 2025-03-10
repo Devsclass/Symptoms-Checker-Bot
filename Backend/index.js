@@ -3,8 +3,9 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const userRoutes = require("./Routes/UserRoute");
+const conversation = require("./Routes/Conversation_route");
 
-const DB_ConnectDB = require("./utils/DBconnect");
+const DB_ConnectDB = require("./utils/DBconnect"); 
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(cors({ origin: "*" }));
 DB_ConnectDB();
 
 app.use("/api/users", userRoutes);
+app.use("/api/conversation", conversation);
 
 
 const Port = 8080;
