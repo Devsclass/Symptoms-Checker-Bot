@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const userRoutes = require("./Routes/UserRoute");
 const conversation = require("./Routes/Conversation_route");
-
+const Chat = require("./Routes/ChatRoutes");
 const DB_ConnectDB = require("./utils/DBconnect"); 
 
 const app = express();
@@ -17,9 +17,9 @@ DB_ConnectDB();
 
 app.use("/api/users", userRoutes);
 app.use("/api/conversation", conversation);
+app.use("/api/chat", Chat);
 
-
-const Port = 8080;
+const Port = 8000;
 app.listen(Port, () => {
   console.log(`server is listing on ${Port}`);
 });
