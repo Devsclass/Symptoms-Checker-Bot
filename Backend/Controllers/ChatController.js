@@ -1,5 +1,5 @@
 const Chat=require("../Models/ChatModel")
-// const main=require("../utils/Ai")
+const main=require("../utils/Ai")
 exports.GetChat = async (req, res) => {
   try {
     const conid=req.params.id;
@@ -48,13 +48,13 @@ exports.ChatGen= async(req,res)=>{
           );
       
         
-          // const response=await main(history)
-          // const aiwmessage=await Chat.create({
-          //   content:response,
-          //   userid:userid,
-          //   role:"assistant",
-          //   Conid:conversation_id,
-          // })
+          const response=await main(history)
+          const aiwmessage=await Chat.create({
+            content:response,
+            userid:userid,
+            role:"assistant",
+            Conid:conversation_id,
+          })
           res.status(201).json(aiwmessage);
   
     }
