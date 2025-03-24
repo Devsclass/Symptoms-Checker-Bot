@@ -9,7 +9,7 @@ const DB_Connect=async()=>{
    
     }
     catch(err){
-     console.log("error on mongo connection")
+     console.log("error on mongo connection",err);
     }
 }
 
