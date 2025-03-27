@@ -6,7 +6,7 @@ export default function Layout({ children }) {
       {/* Header */}
       <header className="bg-blue-600 text-white p-4 sticky top-0 z-50">
         <div className="container mx-auto flex flex-col sm:flex-row justify-between items-center">
-          <Link href="/" className="text-2xl font-bold mb-4 sm:mb-0 cursor-pointer">PipeLine X Health</Link>
+          <Link href="/" className="text-2xl font-bold mb-4 sm:mb-0 cursor-pointer">PipeLine X</Link>
           <nav>
             <ul className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
               <li><Link href="#" className="hover:text-blue-200">Home</Link></li>

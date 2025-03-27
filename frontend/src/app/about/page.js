@@ -165,7 +165,7 @@ const page = () => {
             <div className="flex flex-col md:flex-row justify-between">
               <div className="mb-8 md:mb-0">
                 <h3 className="text-xl font-bold mb-4">PipeLine X</h3>
-                <p className="text-gray-400">Your trusted health companion</p>
+                <p className="text-gray-400">An AI-powered health assistant providing preliminary symptom analysis and general health information.</p>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
                 <div>
