@@ -6,47 +6,38 @@ const userRoutes = require("./Routes/UserRoute");
 const conversation = require("./Routes/Conversation_route");
 const Chat = require("./Routes/ChatRoutes");
 const DB_ConnectDB = require("./utils/DBconnect"); 
-
+const cookieParser = require('cookie-parser');
 const app = express();
 
 
 app.use(express.json()); 
 app.use(cors({ origin: "*" }));
+app.use(cookieParser());
+const allowedOrigins = [
+  "http://localhost:3000", // ✅ For development on laptop
+  "http://192.168.0.34:3000", // ✅ For testing on the local network
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true, // ✅ Ensures cookies work across devices
+  })
+);
 
 DB_ConnectDB();
 
 app.use("/api/users", userRoutes);
-app.use("/api/conversation", conversation);
-app.use("/api/chat", Chat);
+app.use("/api/Con", ConversationRoutes);
+app.use("/api/Chat", ChatRoutes);
 
 const Port = 8000;
 app.listen(Port, () => {
   console.log(`server is listing on ${Port}`);
 });
-
-const groq = new Groq({
-  apiKey: "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",
-});
-
-async function main() {
-  const chatCompletion = await getGroqChatCompletion();
-
-  console.log(chatCompletion.choices[0]?.message?.content || "");
-}
-
-async function getGroqChatCompletion() {
-  return groq.chat.completions.create({
-    messages: [
-      {
-        role: "assistant",
-        content:
-          "you are a symptom detector. which will predict user disease.The answer should be short and you can ask more questions to the user to able to get prediction right. you will not question any answer which is not related to health.",
-      },
-      {
-        role: "user",
-        content: "what is c++",
-      },
-    ],
-    model: "llama-3.3-70b-versatile",
-  });
-}
