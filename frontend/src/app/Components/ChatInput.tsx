@@ -16,7 +16,9 @@ const ChatInput = (props: Props) => {
      className=' w-[60%] h-[90%] bg-gray-700 rounded-2xl'
      onKeyDown={(e)=>props.handelsubmission(e)}
      value={props.message}
-     onChange={(e)=>props.setmessage(e.target.value)}
+     onChange={(e)=>{props.setmessage(e.target.value)
+     
+     }}
     />
 </div>
   )
