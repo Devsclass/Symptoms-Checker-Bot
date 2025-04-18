@@ -1,4 +1,5 @@
 type Convertype = {
+    _id:string,
     convoname: string;
     createdAt: string;
     updatedAt: string;

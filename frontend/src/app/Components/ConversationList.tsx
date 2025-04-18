@@ -8,11 +8,15 @@ type GroupedConversations = {
 interface ConversationListProps {
     Conversations: Convertype[];
     SetConversations: React.Dispatch<React.SetStateAction<Convertype[]>>;
+    selectedconversation:string,
+    setselectedconversation:React.Dispatch<React.SetStateAction<string>>
   }
   
   const ConversationList: React.FC<ConversationListProps> = ({
     Conversations,
     SetConversations,
+    selectedconversation,
+    setselectedconversation
   }) => {
    
     console.log(Conversations)
@@ -68,6 +72,7 @@ interface ConversationListProps {
             const response = await axios.get("http://localhost:8080/api/Con/getAllConversation", {
                 withCredentials: true
             });
+            
             SetConversations(response.data);
         } catch (error) {
             console.error('Error fetching Conversations:', error);
@@ -83,12 +88,17 @@ interface ConversationListProps {
             {/* Render static categories */}
             {staticCategories.map(category => (
                 groupedConversations[category] && (
-                    <div key={category} className="w-[90%] felx flex-col">
+                    <div key={category} className="w-[90%] felx flex-col cursor-pointer"
+                    
+                    >
                         <h1 className="text-white bg-[#181818] text-sm mb-1 p-2  sticky top-0">
                             {category}
                         </h1>
                         {groupedConversations[category].map((item, i) => (
-                            <div key={i} className=" w-[80%]  ml-3 text-sm p-2 mt-0.5 max-h-[7vh] text-nowrap overflow-hidden   hover:bg-gray-700 rounded">
+                            <div key={i}
+                             className={` w-[80%]  ml-3 text-sm p-2 mt-0.5 max-h-[7vh] text-nowrap overflow-hidden ${selectedconversation==item._id?"bg-gray-700":"hover:bg-gray-700"}  rounded`}
+                             onClick={()=>setselectedconversation(item._id)}
+                             >
                                 {item.convoname}
                             </div>
                         ))}
@@ -98,27 +108,39 @@ interface ConversationListProps {
 
             {/* Render sorted month categories */}
             {monthCategories.map(category => (
-                <div key={category} className="w-[80%] ">
-                    <h3 className="text-white mb-3 p-2  bg-gray-800 sticky top-0">
-                        {category} {getYearForMonth(category) !== currentDate.getFullYear() && `(${getYearForMonth(category)})`}
-                    </h3>
-                    {groupedConversations[category].map((item, i) => (
-                        <div key={i} className="p-2 hover:bg-gray-700 rounded">
-                            {item.convoname}
-                        </div>
-                    ))}
-                </div>
+                groupedConversations[category] && (
+                    <div key={category} className="w-[90%] felx flex-col cursor-pointer"
+                    
+                    >
+                        <h1 className="text-white bg-[#181818] text-sm mb-1 p-2  sticky top-0">
+                            {category}
+                        </h1>
+                        {groupedConversations[category].map((item, i) => (
+                            <div key={i}
+                             className=" w-[80%]  ml-3 text-sm p-2 mt-0.5 max-h-[7vh] text-nowrap overflow-hidden   hover:bg-gray-700 rounded"
+                             onClick={()=>setselectedconversation(item._id)}
+                             >
+                                {item.convoname}
+                            </div>
+                        ))}
+                    </div>
+                )
             ))}
 
             {/* Render remaining categories */}
             {otherCategories.map(category => (
                 groupedConversations[category] && (
-                    <div key={category} className="w-[80%]">
-                        <h1 className="text-white mb-3 p-2 bg-gray-800 sticky top-0">
+                    <div key={category} className="w-[90%] felx flex-col cursor-pointer"
+                    
+                    >
+                        <h1 className="text-white bg-[#181818] text-sm mb-1 p-2  sticky top-0">
                             {category}
                         </h1>
                         {groupedConversations[category].map((item, i) => (
-                            <div key={i} className="p-2 hover:bg-gray-700 rounded">
+                            <div key={i}
+                             className=" w-[80%]  ml-3 text-sm p-2 mt-0.5 max-h-[7vh] text-nowrap overflow-hidden   hover:bg-gray-700 rounded"
+                             onClick={()=>setselectedconversation(item._id)}
+                             >
                                 {item.convoname}
                             </div>
                         ))}

@@ -3,7 +3,8 @@ import React, { useState, ReactNode } from "react";
 import Nav from "../Components/Nav";
 import ConversationList from "../Components/ConversationList";
 import Convertype from "../Components/Types"
-import ChatInput from "../Components/ChatInput"
+import Conversationpanel from "../Components/Conversationpanel";
+
 type pageProps = {};
 
 const Sidepanel = ({
@@ -64,8 +65,7 @@ const page: React.FC<pageProps> = () => {
     
   const [sideopen, setsideopen] = useState<boolean>(false);
   const [Conversations,SetConversations]=useState<Convertype []>([])
-  const [ selectcon,setselectedcon]=useState("")
-
+  const [selectedconversation,setselectedconversation]=useState<string>("")
   return (
     <>
       <div className="w-[100vw] bg-black h-[100vh]  text-[#e0e0e0] flex overflow-hidden">
@@ -95,27 +95,23 @@ const page: React.FC<pageProps> = () => {
          </div>
             
           </div>
-          <div className=" w-full h-[76vh] mt-4 bgwhite overflow-y-auto
+          <div className=" w-full h-[96vh] mt-4 bgwhite overflow-y-auto
            [&::-webkit-scrollbar]:w-2
         [&::-webkit-scrollbar-track]:bg-gray-100
         [&::-webkit-scrollbar-thumb]:bg-gray-300
         dark:[&::-webkit-scrollbar-track]:bg-neutral-700
         dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500
           ">
-            <ConversationList Conversations={Conversations} SetConversations={SetConversations} />
+            <ConversationList Conversations={Conversations} SetConversations={SetConversations} 
+            selectedconversation={selectedconversation} setselectedconversation={setselectedconversation}
+            />
           </div>
         </Sidepanel>
 
 
         <Mainpanel sideopen={sideopen} className=" bg-[#2b2b31] ">
           <Nav sideopen={sideopen} setsideopen={setsideopen} />
-               <div className=" w-full h-full relative bg-white">
-                
-                     <div className="">
-
-                     </div>
-
-               </div>
+          <Conversationpanel />
         </Mainpanel>
       </div>
     </>
