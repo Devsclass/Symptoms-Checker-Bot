@@ -111,7 +111,7 @@ const page: React.FC<pageProps> = () => {
 
         <Mainpanel sideopen={sideopen} className=" bg-[#2b2b31] ">
           <Nav sideopen={sideopen} setsideopen={setsideopen} />
-          <Conversationpanel />
+          <Conversationpanel selectedconversation={selectedconversation}  />
         </Mainpanel>
       </div>
     </>
