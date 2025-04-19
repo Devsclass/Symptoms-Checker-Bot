@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, ReactNode } from "react";
+import axios from "axios";
 import Nav from "../Components/Nav";
 import ConversationList from "../Components/ConversationList";
 import Convertype from "../Components/Types"
@@ -66,6 +67,42 @@ const page: React.FC<pageProps> = () => {
   const [sideopen, setsideopen] = useState<boolean>(false);
   const [Conversations,SetConversations]=useState<Convertype []>([])
   const [selectedconversation,setselectedconversation]=useState<string>("")
+  const Recalllist=async()=>{
+    const response = await axios.get("http://localhost:8080/api/Con/getAllConversation", {
+      withCredentials: true
+  });
+  //console.log("here you go ",response)
+  if(response.data.length>0)
+  {
+      SetConversations(response.data);
+      
+      setselectedconversation(response.data[0]._id)
+  }
+  }
+  const Createnewchat=async()=>{
+    try{
+   if(Conversations[0].convoname!="New Chat")
+      { const res=await axios.post("http://localhost:8080/api/Con/CreateConversation",{
+        name:"New Chat",
+        id:null,
+    },{
+        withCredentials: true
+    })
+   
+   
+    if(res.data.length>0)
+        {
+            //console.log("getting in",res.data.category)
+             SetConversations(prev=>[res.data[0],...prev]);
+             setselectedconversation(res.data[0]._id)
+             //console.log( res.data[0]._id)
+        }}
+    }
+    catch(err)
+    {
+      //console.log("error in creating new chat", err)
+    }
+  }
   return (
     <>
       <div className="w-[100vw] bg-black h-[100vh]  text-[#e0e0e0] flex overflow-hidden">
@@ -88,7 +125,8 @@ const page: React.FC<pageProps> = () => {
          <img
             src="./newchat.svg"
             alt=""
-            className=" p-0.5 lg:w-[30px]  md:w-[30px] w-[20px]  hidden   lg:block md:visible    "
+            className=" p-0.5 lg:w-[30px]  md:w-[30px] w-[20px]  hidden   lg:block md:visible cursor-pointer    "
+            onClick={()=>{Createnewchat()}}
           />
            
 
@@ -110,8 +148,9 @@ const page: React.FC<pageProps> = () => {
 
 
         <Mainpanel sideopen={sideopen} className=" bg-[#2b2b31] ">
-          <Nav sideopen={sideopen} setsideopen={setsideopen} />
-          <Conversationpanel selectedconversation={selectedconversation}  />
+          <Nav sideopen={sideopen} setsideopen={setsideopen} /> 
+          <Conversationpanel selectedconversation={selectedconversation}
+           Conversations={Conversations} SetConversations={SetConversations} Recalllist={Recalllist} />
         </Mainpanel>
       </div>
     </>

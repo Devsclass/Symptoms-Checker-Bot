@@ -2,8 +2,12 @@ import React,{useState,useEffect} from 'react'
 import ChatInput from './ChatInput'
 import axios from 'axios'
 import ChatContainer from './ChatContainer'
+import Convertype from './Types'
 type Props = {
-  selectedconversation:string
+  selectedconversation:string,
+  SetConversations:React.Dispatch<React.SetStateAction<Convertype[]>>,
+  Conversations:Convertype[]
+  Recalllist:()=>void
 }
 
  function Conversationpanel(props: Props) {
@@ -19,7 +23,7 @@ type Props = {
               },{
                   withCredentials:true,
               })
-              console.log(re.data.data)
+              //console.log(re.data.data)
               setchats(re.data.data)
               if(re.data.data.length>0)
               {
@@ -38,23 +42,44 @@ type Props = {
 
 
     const handelsubmission=async(e:React.KeyboardEvent)=>{
-       if(e.key=="Enter")
+       if(e.key=="Enter" && props.selectedconversation)
        {
         chats.push({content:message , role:"user"})
+        
+        const usermsg=message;
         setmessage("")
+        const isitnew=firstmessage;
         setfirstmessage(true)
         const re=await axios.post("http://localhost:8080/api/Chat/CreateChat", {
           message:message,
           id:null,
           conversation_id:props.selectedconversation
       }
-    ,{  withCredentials: true,});
+                             ,{  withCredentials: true,});
   
            if(re.data)
            {
-             setchats((prev)=>[...prev,{content:re.data.content,role:re.data.role}])
+             const cc=chats;
+             console.log(cc)
+             setchats((prev:any)=>[...prev,{content:re.data.content,role:re.data.role}])
+             if(cc.length<2)
+              {
            
+                 const title=await axios.post("http://localhost:8080/api/Con/Gentitles",{
+                   usermsg:usermsg,
+                   aimsg :re.data.content,
+                   conlist:props.Conversations,
+                   ccon:props.selectedconversation,
+                   id:null
+                 },{
+                   withCredentials:true
+                 })
+                 //console.log("its the title ",title.data)
+                 props.Recalllist()
+
+              }
            }
+          
        }
      
     }
