@@ -1,9 +1,11 @@
 "use client";
 import React, { useState, ReactNode } from "react";
+import axios from "axios";
 import Nav from "../Components/Nav";
 import ConversationList from "../Components/ConversationList";
 import Convertype from "../Components/Types"
-import ChatInput from "../Components/ChatInput"
+import Conversationpanel from "../Components/Conversationpanel";
+
 type pageProps = {};
 
 const Sidepanel = ({
@@ -64,8 +66,43 @@ const page: React.FC<pageProps> = () => {
     
   const [sideopen, setsideopen] = useState<boolean>(false);
   const [Conversations,SetConversations]=useState<Convertype []>([])
-  const [ selectcon,setselectedcon]=useState("")
-
+  const [selectedconversation,setselectedconversation]=useState<string>("")
+  const Recalllist=async()=>{
+    const response = await axios.get("http://localhost:8080/api/Con/getAllConversation", {
+      withCredentials: true
+  });
+  //console.log("here you go ",response)
+  if(response.data.length>0)
+  {
+      SetConversations(response.data);
+      
+      setselectedconversation(response.data[0]._id)
+  }
+  }
+  const Createnewchat=async()=>{
+    try{
+   if(Conversations[0].convoname!="New Chat")
+      { const res=await axios.post("http://localhost:8080/api/Con/CreateConversation",{
+        name:"New Chat",
+        id:null,
+    },{
+        withCredentials: true
+    })
+   
+   
+    if(res.data.length>0)
+        {
+            //console.log("getting in",res.data.category)
+             SetConversations(prev=>[res.data[0],...prev]);
+             setselectedconversation(res.data[0]._id)
+             //console.log( res.data[0]._id)
+        }}
+    }
+    catch(err)
+    {
+      //console.log("error in creating new chat", err)
+    }
+  }
   return (
     <>
       <div className="w-[100vw] bg-black h-[100vh]  text-[#e0e0e0] flex overflow-hidden">
@@ -88,34 +125,32 @@ const page: React.FC<pageProps> = () => {
          <img
             src="./newchat.svg"
             alt=""
-            className=" p-0.5 lg:w-[30px]  md:w-[30px] w-[20px]  hidden   lg:block md:visible    "
+            className=" p-0.5 lg:w-[30px]  md:w-[30px] w-[20px]  hidden   lg:block md:visible cursor-pointer    "
+            onClick={()=>{Createnewchat()}}
           />
            
 
          </div>
             
           </div>
-          <div className=" w-full h-[76vh] mt-4 bgwhite overflow-y-auto
+          <div className=" w-full h-[96vh] mt-4 bgwhite overflow-y-auto
            [&::-webkit-scrollbar]:w-2
         [&::-webkit-scrollbar-track]:bg-gray-100
         [&::-webkit-scrollbar-thumb]:bg-gray-300
         dark:[&::-webkit-scrollbar-track]:bg-neutral-700
         dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500
           ">
-            <ConversationList Conversations={Conversations} SetConversations={SetConversations} />
+            <ConversationList Conversations={Conversations} SetConversations={SetConversations} 
+            selectedconversation={selectedconversation} setselectedconversation={setselectedconversation}
+            />
           </div>
         </Sidepanel>
 
 
         <Mainpanel sideopen={sideopen} className=" bg-[#2b2b31] ">
-          <Nav sideopen={sideopen} setsideopen={setsideopen} />
-               <div className=" w-full h-full relative bg-white">
-                
-                     <div className="">
-
-                     </div>
-
-               </div>
+          <Nav sideopen={sideopen} setsideopen={setsideopen} /> 
+          <Conversationpanel selectedconversation={selectedconversation}
+           Conversations={Conversations} SetConversations={SetConversations} Recalllist={Recalllist} />
         </Mainpanel>
       </div>
     </>

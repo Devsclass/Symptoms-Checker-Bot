@@ -1,24 +1,26 @@
-import React from 'react'
+import React,{useState} from 'react'
 
 type Props = {
-    selectcon:string,
-    setselectedcon: React.Dispatch<React.SetStateAction<string>>,
-    className:string
+  selectedconversation:string
+  handelsubmission:(e:React.KeyboardEvent)=>void
+  message:string,
+  setmessage:React.Dispatch<React.SetStateAction<string>>
 }
 
 const ChatInput = (props: Props) => {
+
   return (
-    <div 
-    className={`
-      flex-1 flex justify-center items-center bg-black w-full 
-      transition-all duration-500 ease-in-out 
-      ${props.selectcon === "" ? "translate-y-0 opacity-100 relative" : "translate-y-[calc(20vh-20vh)] opacity-100 absolute bottom-5 h-[20vh]"}
-      ${props.className}
-    `}
-  >
-        <button onClick={()=>props.selectcon==""? props.setselectedcon("s"):props.setselectedcon("")}>
-        ChatInput
-        </button></div>
+<div className=' w-full h-full  flex justify-center items-center'>
+    <input
+     placeholder='Ask something'
+     className=' w-[60%] h-[90%] bg-gray-700 rounded-2xl'
+     onKeyDown={(e)=>props.handelsubmission(e)}
+     value={props.message}
+     onChange={(e)=>{props.setmessage(e.target.value)
+     
+     }}
+    />
+</div>
   )
 }
 export default ChatInput
