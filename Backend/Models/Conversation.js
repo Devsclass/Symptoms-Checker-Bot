@@ -9,6 +9,9 @@ const ConversationSchema =new mongoose.Schema({
         ref:"User",
         
     }
+},
+{
+    timestamps:true
 })
 const Conversation=mongoose.model("Conversation",ConversationSchema);
 module.exports=Conversation;

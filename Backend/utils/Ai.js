@@ -22,4 +22,34 @@ const groq = new Groq({
       model: "llama-3.3-70b-versatile",
     });
   }
-  module.exports=main
+
+  async function nameforchat(usermsg, aimsg, conlist) {
+    const formattedContent = `
+  User Message: ${usermsg}
+  AI Message: ${aimsg}
+  Previous Titles: ${conlist.map(c => c.convoname).join(", ")}
+  `;
+  
+    return groq.chat.completions.create({
+      messages: [
+        {
+          role: "assistant",
+          content:
+            "you are a title maker agent. I will give you a part of conversation which will have a response from an AI and a question from a user. You will produce a short 3-word title. I will also give you a list of previous conversation title names which you will keep in mind and produce a different title than them.",
+        },
+        {
+          role: "user",
+          content: formattedContent, // ✅ Now it's a string
+        }
+      ],
+      model: "llama-3.3-70b-versatile",
+    });
+  }
+  
+
+  async function name(usermsg,aimsg,conlist) {
+    const t=await nameforchat(usermsg,aimsg,conlist)
+    return t.choices[0]?.message?.content || "";
+  }
+  
+  module.exports={main,name}

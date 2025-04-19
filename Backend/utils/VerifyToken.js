@@ -12,8 +12,8 @@ const VerifyToken=(req,res,next)=>{
 
     try{
      const duser=jwt.verify(token,key);
-     req.id=duser;
-   
+     req.body.id=duser.id;
+    
      next()
     }
     catch(err)

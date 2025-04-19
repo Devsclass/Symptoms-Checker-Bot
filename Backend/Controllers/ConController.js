@@ -1,20 +1,31 @@
 const Conversation=require("../Models/Conversation")
 const Chat=require("../Models/ChatModel")
+const {name}=require("../utils/Ai")
 exports.CreateConversation= async (req,res)=>{
    try {
     
-    const {name,_id}=req.body.data;
+    const {name,id}=req.body;
     const convo= await Conversation.create({
         convoname:name,
-        user_id:_id
+        user_id:id
     })
-    res.json(convo)}
+    const nc={
+      _id:convo._id,
+      category:"Today",
+      convoname:convo.convoname,
+      createdAt:convo.createdAt,
+      createdDate:convo.createdAt,
+      updatedAt:convo.updatedAt,
+    }
+    res.status(201).json([nc])
+  }
     catch(error){
         res.status(500).json({ message: error.message });
     }
 }
 exports.GetAllConversations=async (req,res)=>{
     try {
+     // console.log(req.body)
         // Define boundaries
         const today = new Date();
         today.setHours(0, 0, 0, 0);
@@ -92,7 +103,7 @@ exports.GetAllConversations=async (req,res)=>{
     
         // Run aggregation pipeline on the Conversation collection
         const conversations = await Conversation.aggregate(pipeline);
-        console.log(conversations)
+    
         res.json(conversations);
       } catch (error) {
         console.error(error);
@@ -126,3 +137,16 @@ exports.GetConversation=async (req,res)=>{
          res.status(500).json({ message: error.message });
      }
  }
+
+ exports.Gentitles=async (req,res)=>{
+   
+   const {usermsg,aimsg,conlist,ccon,id}=req.body;
+  console.log(usermsg,aimsg,conlist,id)
+  const title=await name(usermsg,aimsg,conlist)
+  const change=await Conversation.updateOne({_id:ccon},{$set:{convoname:title}})
+  const convodata=await Conversation.find({user_id:id})
+  console.log(convodata)
+   res.status(201).json({data:convodata})
+ }
+
+ 

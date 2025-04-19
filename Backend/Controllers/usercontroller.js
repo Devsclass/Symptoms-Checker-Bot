@@ -83,6 +83,7 @@ exports.loginUser = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
     const Token=GenToken({id:user._id.toString()});
+     
    
     res.cookie("token", Token, {
       httpOnly: true,
