@@ -68,7 +68,7 @@ type Props = {
              if(cc.length<2)
               {
            
-                 const title=await axios.post("http://localhost:8080/api/Con/Gentitles",{
+                 const title=await axios.post(`${process.env.NEXT_PUBLIC_Backend}/api/Con/Gentitles`,{
                    usermsg:usermsg,
                    aimsg :re.data.content,
                    conlist:props.Conversations,
