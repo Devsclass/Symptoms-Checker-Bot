@@ -20,7 +20,7 @@ type Props = {
 
     useEffect(()=>{
       const fetchats=async()=>{
-              const re=await axios.post("http://localhost:8080/api/Chat/GetAllChats",{
+              const re=await axios.post(`${process.env.NEXT_PUBLIC_Backend}/api/Chat/GetAllChats`,{
                   conversation_id:props.selectedconversation
               },{
                   withCredentials:true,
@@ -53,7 +53,7 @@ type Props = {
         setmessage("")
         const isitnew=props.firstmessage;
        props. setfirstmessage(true)
-        const re=await axios.post("http://localhost:8080/api/Chat/CreateChat", {
+        const re=await axios.post(`${process.env.NEXT_PUBLIC_Backend}/api/Chat/CreateChat`, {
           message:message,
           id:null,
           conversation_id:props.selectedconversation

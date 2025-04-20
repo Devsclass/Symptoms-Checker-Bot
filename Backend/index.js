@@ -11,8 +11,7 @@ const app = express();
 const dotenv=require("dotenv")
 dotenv.config()
 
-app.use(express.json());  
-app.use(cookieParser());
+
 const allowedOrigins = [
   process.env.frontendurl,
 
@@ -32,6 +31,8 @@ app.use(
     credentials: true, 
   })
 );
+app.use(express.json());  
+app.use(cookieParser());
 
 DB_ConnectDB();
 
