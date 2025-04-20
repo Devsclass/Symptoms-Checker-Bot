@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react'
 import ChatInput from './ChatInput'
 import axios from 'axios'
 import ChatContainer from './ChatContainer'
-import Convertype from './Types'
+import {Convertype,Chattype} from './Types'
 type Props = {
   selectedconversation:string,
   SetConversations:React.Dispatch<React.SetStateAction<Convertype[]>>,
@@ -16,7 +16,7 @@ type Props = {
    
     const [message,setmessage]=useState<string>("")
     const [aires,setaires]=useState("")
-    const [chats,setchats]=useState<any>([]);
+    const [chats,setchats]=useState<Chattype[]>([]);
 
     useEffect(()=>{
       const fetchats=async()=>{
@@ -46,7 +46,8 @@ type Props = {
     const handelsubmission=async(e:React.KeyboardEvent)=>{
        if(e.key=="Enter" && props.selectedconversation)
        {
-        chats.push({content:message , role:"user"})
+        const newChat: Chattype = { content: message, role: "user", userid: "some_user_id", Conid: props.selectedconversation };
+    setchats((prevChats) => [...prevChats, newChat]);
         
         const usermsg=message;
         setmessage("")

@@ -1,4 +1,4 @@
-type Convertype = {
+export type Convertype = {
     _id:string,
     convoname: string;
     createdAt: string;
@@ -6,4 +6,9 @@ type Convertype = {
     user_id: string;
     category: string;
 };
-export default Convertype
+export type Chattype={
+    role:string,
+    content:string,
+    userid:string,
+    Conid:string
+}

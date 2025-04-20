@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import Convertype from "./Types"
+import {Convertype} from "./Types"
 
 type GroupedConversations = {
     [key: string]: Convertype[];

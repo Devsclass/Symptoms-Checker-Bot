@@ -3,10 +3,10 @@ import React, { useState, ReactNode } from "react";
 import axios from "axios";
 import Nav from "../Components/Nav";
 import ConversationList from "../Components/ConversationList";
-import Convertype from "../Components/Types"
+import {Convertype} from "../Components/Types"
 import Conversationpanel from "../Components/Conversationpanel";
 
-type pageProps = {};
+type pageProps = object;
 
 const Sidepanel = ({
   sideopen,
@@ -62,7 +62,7 @@ const Mainpanel = ({
   );
 };
 
-const page: React.FC<pageProps> = () => {
+const Page: React.FC<pageProps> = () => {
     
   const [sideopen, setsideopen] = useState<boolean>(false);
   const [Conversations,SetConversations]=useState<Convertype []>([])
@@ -163,4 +163,4 @@ const page: React.FC<pageProps> = () => {
     </>
   );
 };
-export default page;
+export default Page;

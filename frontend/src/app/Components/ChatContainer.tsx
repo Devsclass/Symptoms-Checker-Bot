@@ -1,8 +1,7 @@
-import axios from 'axios'
-import React,{useEffect, useState} from 'react'
-
+import React from 'react'
+import { Chattype } from './Types'
 type Props = {
-    chats:any
+    chats:Chattype[]
 }
 
 const ChatContainer = (props: Props) => {
@@ -12,7 +11,7 @@ const ChatContainer = (props: Props) => {
   return (
     <div className='w-[60%] h-[76vh] mt-1 pb-7  rounded-2xl overflow-y-scroll '>
          {
-           props.chats.map((item:any,index:number)=>{
+           props.chats.map((item:Chattype,index:number)=>{
                 return(
                   
                     <div key={index} className={` chat ${item.role=="user"?"chat-receiver":"chat-sender"}`}>
