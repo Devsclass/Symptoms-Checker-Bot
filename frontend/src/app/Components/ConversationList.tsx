@@ -10,6 +10,7 @@ interface ConversationListProps {
     SetConversations: React.Dispatch<React.SetStateAction<Convertype[]>>;
     selectedconversation:string,
     setselectedconversation:React.Dispatch<React.SetStateAction<string>>
+
   }
   
   const ConversationList: React.FC<ConversationListProps> = ({
@@ -69,7 +70,7 @@ interface ConversationListProps {
 
     const getConversations = async () => {
         try {
-            const response = await axios.get("http://localhost:8080/api/Con/getAllConversation", {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_Backend}/api/Con/getAllConversation`, {
                 withCredentials: true
             });
            
@@ -80,7 +81,7 @@ interface ConversationListProps {
                 setselectedconversation(response.data[0]._id)
             }
             else{
-                const res=await axios.post("http://localhost:8080/api/Con/CreateConversation",{
+                const res=await axios.post(`${process.env.NEXT_PUBLIC_Backend}/api/Con/CreateConversation`,{
                     name:"New Chat",
                     id:null,
                 },{

@@ -67,8 +67,9 @@ const page: React.FC<pageProps> = () => {
   const [sideopen, setsideopen] = useState<boolean>(false);
   const [Conversations,SetConversations]=useState<Convertype []>([])
   const [selectedconversation,setselectedconversation]=useState<string>("")
+   const [firstmessage,setfirstmessage]=useState<boolean>(false)
   const Recalllist=async()=>{
-    const response = await axios.get("http://localhost:8080/api/Con/getAllConversation", {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_Backend}/api/Con/getAllConversation`, {
       withCredentials: true
   });
   //console.log("here you go ",response)
@@ -81,8 +82,10 @@ const page: React.FC<pageProps> = () => {
   }
   const Createnewchat=async()=>{
     try{
+      
    if(Conversations[0].convoname!="New Chat")
-      { const res=await axios.post("http://localhost:8080/api/Con/CreateConversation",{
+      { setfirstmessage(false)
+        const res=await axios.post(`${process.env.NEXT_PUBLIC_Backend}/api/Con/CreateConversation`,{
         name:"New Chat",
         id:null,
     },{
@@ -95,6 +98,7 @@ const page: React.FC<pageProps> = () => {
             //console.log("getting in",res.data.category)
              SetConversations(prev=>[res.data[0],...prev]);
              setselectedconversation(res.data[0]._id)
+             
              //console.log( res.data[0]._id)
         }}
     }
@@ -142,7 +146,8 @@ const page: React.FC<pageProps> = () => {
           ">
             <ConversationList Conversations={Conversations} SetConversations={SetConversations} 
             selectedconversation={selectedconversation} setselectedconversation={setselectedconversation}
-            />
+          
+           />
           </div>
         </Sidepanel>
 
@@ -150,7 +155,9 @@ const page: React.FC<pageProps> = () => {
         <Mainpanel sideopen={sideopen} className=" bg-[#2b2b31] ">
           <Nav sideopen={sideopen} setsideopen={setsideopen} /> 
           <Conversationpanel selectedconversation={selectedconversation}
-           Conversations={Conversations} SetConversations={SetConversations} Recalllist={Recalllist} />
+           Conversations={Conversations} SetConversations={SetConversations} Recalllist={Recalllist}
+           firstmessage={firstmessage} setfirstmessage={setfirstmessage}
+           />
         </Mainpanel>
       </div>
     </>

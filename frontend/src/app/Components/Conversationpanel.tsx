@@ -8,10 +8,12 @@ type Props = {
   SetConversations:React.Dispatch<React.SetStateAction<Convertype[]>>,
   Conversations:Convertype[]
   Recalllist:()=>void
+      firstmessage:boolean,
+      setfirstmessage:React.Dispatch<React.SetStateAction<boolean>>
 }
 
  function Conversationpanel(props: Props) {
-    const [firstmessage,setfirstmessage]=useState<boolean>(false)
+   
     const [message,setmessage]=useState<string>("")
     const [aires,setaires]=useState("")
     const [chats,setchats]=useState<any>([]);
@@ -27,7 +29,7 @@ type Props = {
               setchats(re.data.data)
               if(re.data.data.length>0)
               {
-                  setfirstmessage(true)
+                  props.setfirstmessage(true)
               }
              }
              if(props.selectedconversation!="")
@@ -48,8 +50,8 @@ type Props = {
         
         const usermsg=message;
         setmessage("")
-        const isitnew=firstmessage;
-        setfirstmessage(true)
+        const isitnew=props.firstmessage;
+       props. setfirstmessage(true)
         const re=await axios.post("http://localhost:8080/api/Chat/CreateChat", {
           message:message,
           id:null,
@@ -90,7 +92,7 @@ type Props = {
               <ChatContainer chats={chats} />
            </div>
       }
-        <div className={`w-full h-[100px]  transition-all duration-300 ease-in-out absolute ${firstmessage?"  lg:translate-y-45 translate-y-55":""}`} >
+        <div className={`w-full h-[100px]  transition-all duration-300 ease-in-out absolute ${props.firstmessage?"  lg:translate-y-45 translate-y-55":""}`} >
          
           
           <ChatInput selectedconversation={props.selectedconversation} handelsubmission={handelsubmission}

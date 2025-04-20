@@ -104,7 +104,7 @@ const page: React.FC<pageProps> = () => {
 
   const Submit = async () => {
      try{
-      const re = await axios.post("http://localhost:8080/api/users/createUser", {
+      const re = await axios.post(`${process.env.NEXT_PUBLIC_Backend}/api/users/createUser`, {
           username:Username,
           email: Email,
           password: Password,
