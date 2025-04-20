@@ -86,7 +86,9 @@ const page: React.FC<pageProps> = () => {
     const router = useRouter();
   const Submit = async () => {
     try
-   { const re = await axios.post(`${process.env.NEXT_PUBLIC_Backend}/api/users/LoginUser`, {
+   {
+    console.log(process.env.NEXT_PUBLIC_Backend) 
+    const re = await axios.post(`${process.env.NEXT_PUBLIC_Backend}/api/users/LoginUser`, {
       email: Email,
       password: Password,
     },

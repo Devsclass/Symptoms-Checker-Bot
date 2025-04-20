@@ -14,16 +14,18 @@ dotenv.config()
 app.use(express.json());  
 app.use(cookieParser());
 const allowedOrigins = [
-  "http://localhost:3000",
-  "http://192.168.0.34:3000",
+  process.env.frontendurl,
+
 ];
+
 
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin || process.env.allowedOrigins.includes(origin)) {
+      if (!origin || origin==process.env.frontendurl) {
         callback(null, true);
       } else {
+        console.log(origin , process.env.frontendurl)
         callback(new Error("Not allowed by CORS"));
       }
     },
@@ -37,8 +39,8 @@ app.use("/api/users", userRoutes);
 app.use("/api/Con",ConversationRoutes)
 app.use("/api/Chat",ChatRoutes)
 
-;
+const Port = 8080;
 app.listen(process.env.Port, () => {
-  console.log(`server is listing on ${process.env.Port|8080}`);
+  console.log(`server is listing on ${process.env.Port}`);
 });
 
