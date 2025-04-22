@@ -1,0 +1,32 @@
+name: Devops CI/CD
+
+on:
+  push:
+    branches:
+      - Deployment
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: SSH AND DEPLOY
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_Host }}
+          username: ${{ secrets.EC2_User }}
+          key: ${{ secrets.EC2_key }}
+          script: |
+            cd /home/ubuntu/Symptoms-Checker-Bot
+            git pull
+            cd Backend
+            npm install
+            cd ../frontend
+            npm install
+            npm run build
+            cd ..
+            pm2 restart next-app
+            pm2 restart Express-app
