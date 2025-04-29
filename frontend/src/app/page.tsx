@@ -1,3 +1,6 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ReactNode } from "react";
@@ -56,20 +59,52 @@ const OpBox = ({
 };
 
 export default function Home() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col overflow-x-hidden bg-gradient-to-b from-gray-900 to-gray-800 text-white">
       {/* Header */}
-      <header className="bg-gray-900/80 backdrop-blur-md text-white p-4 sticky top-0 z-50 border-b border-gray-800">
+      <header className={`${isScrolled ? 'bg-gray-900' : 'bg-gray-900/80'} backdrop-blur-md text-white p-4 sticky top-0 z-50 border-b border-gray-800 transition-colors duration-300`}>
         <div className="container mx-auto flex flex-col sm:flex-row justify-between items-center">
-          <Link 
-            href="/" 
-            className="text-2xl font-bold mb-4 sm:mb-0 cursor-pointer hover:opacity-80 transition-opacity duration-300 flex items-center"
-          >
-            <span className="bg-gradient-to-r from-blue-400 to-blue-600 text-transparent bg-clip-text">
-              PipeLine X Health
-            </span>
-          </Link>
-          <nav>
+          <div className="w-full flex justify-between items-center">
+            <Link 
+              href="/" 
+              className="text-2xl font-bold mb-4 sm:mb-0 cursor-pointer hover:opacity-80 transition-opacity duration-300 flex items-center"
+            >
+              <span className="bg-gradient-to-r from-blue-400 to-blue-600 text-transparent bg-clip-text">
+                PipeLine X Health
+              </span>
+            </Link>
+            
+            {/* Mobile menu button */}
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="sm:hidden text-gray-300 hover:text-white focus:outline-none"
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              )}
+            </button>
+          </div>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden sm:block">
             <ul className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-6">
               <li>
                 <Link href="#" className="hover:text-blue-300 transition-all duration-300">
@@ -94,8 +129,53 @@ export default function Home() {
             </ul>
           </nav>
         </div>
+
+        {/* Mobile Dropdown Menu */}
+        {isMenuOpen && (
+          <div className="sm:hidden mt-4">
+            <ul className="flex flex-col space-y-3">
+              <li>
+                <Link 
+                  href="#" 
+                  className="block py-2 hover:text-blue-300 transition-all duration-300"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/about" 
+                  className="block py-2 hover:text-blue-300 transition-all duration-300"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  About
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/contact" 
+                  className="block py-2 hover:text-blue-300 transition-all duration-300"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Contact
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/Login" 
+                  className="block bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition-all duration-300 text-center"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Login
+                </Link>
+              </li>
+            </ul>
+          </div>
+        )}
       </header>
 
+      {/* Rest of your existing code remains the same */}
       {/* Hero Section */}
       <div className="relative bg-gradient-to-b from-gray-900 to-gray-800 py-20 md:py-28">
         <div className="absolute inset-0 overflow-hidden">
