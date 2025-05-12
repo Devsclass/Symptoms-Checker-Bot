@@ -118,7 +118,7 @@ export default function Home() {
               </li>
               <li>
                 <Link href="/contact" className="hover:text-blue-300 transition-all duration-300">
-                  Contact
+                  Contact us
                 </Link>
               </li>
               <li>
