@@ -78,10 +78,10 @@ const page: React.FC<pageProps> = () => {
   const [error,seterror]=useState<boolean>(false)
 
   //form states
-  const [Username,setusername]=useState<string>("h")
-  const [Email, setEmail] = useState<string>("haris@gmail.com");
-  const [Password, setPassword] = useState<string>("1");
-  const [ConfrimPass,setConfirmpas]=useState<string>("1")
+  const [Username,setusername]=useState<string>("")
+  const [Email, setEmail] = useState<string>("");
+  const [Password, setPassword] = useState<string>("");
+  const [ConfrimPass,setConfirmpas]=useState<string>("")
   const [passmatch,setpassmatch]=useState<boolean>()
  const router = useRouter()
 
@@ -113,7 +113,7 @@ const page: React.FC<pageProps> = () => {
         withCredentials:true,
       });
         console.log(re)
-        router.push("/Chat")
+        router.push("/Login")
      }
      catch(err )
      {
@@ -339,7 +339,7 @@ const page: React.FC<pageProps> = () => {
                 className="rounded-md cursor-pointer bg-[#39aefb] hover:bg-blue-500    w-[90%] py-2 px-4 border border-transparent text-center text-lg  text-white font-bold transition-all shadow-md hover:shadow-lg focus:shadow-none  active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2 ease-in-out"
              
             >
-                Log in
+                SignUp
             </button>
             </Rows>
 

@@ -256,10 +256,10 @@ const page: React.FC<pageProps> = () => {
 
         <Rows className="  flex-0.5">
           <div className="  w-[90%] flex justify-between items-center text-md text-blue-500 ">
-            <Link href={"/SingUp"} className="  hover:underline cursor-pointer">
+            <Link href={"/SignUp"} className="  hover:underline cursor-pointer">
               Forget password
-            </Link>
-            <div className="  hover:underline cursor-pointer ">Singup</div>
+            </Link >
+            <Link href={"/SignUp"} className="  hover:underline cursor-pointer ">Singup</Link>
           </div>
         </Rows>
 
